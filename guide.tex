@@ -1,0 +1,450 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[bindingoffset=0pt,width=14cm,height=22cm,marginratio=1:1,vmarginratio=1:1]{geometry}
+
+\title{Petit guide Python pour physicien-ne-s}
+\author{Léo Esnault}
+\date{Janvier 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Python : pourquoi faire ?}
+La programmation est quasi-indispensable pour faire de la physique aujourd'hui $\to$ permet de résoudre des problèmes non solubles analytiquement (pour faire des prédictions théoriques) et analyser les données d'expérience et de simulation.
+
+\href{https://fr.wikipedia.org/wiki/Python_(langage)}{Python} est un langage de choix pour effectuer ces opérations simplement. Toutefois si le programme nécessite un temps d'exécution important, il peut être intéressant d'utiliser un langage compilé (C, C++, Fortran, ...).
+
+Les spécificités de Python sont :
+\begin{itemize}
+    \item \href{https://fr.wikipedia.org/wiki/Interpr\%C3\%A8te_(informatique)}{Langage interprété} :
+    la traduction en langage machine est effectuée à chaque exécution du programme $\to$ il est possible d'exécuter des instructions dynamiquement dans une console (débogage plus facile), mais l'exécution du programme est plus lente que pour un programme compilé
+    \item \href{https://en.wikipedia.org/wiki/List_of_Python_software}{Polyvalent} :
+    nombreux modules pour applications scientifiques, interfaces graphiques, le web, les jeux vidéos, ...
+    \item \href{https://fr.wikipedia.org/wiki/Langage_de_haut_niveau}{(Très) Haut niveau} :
+    l'interpréteur s'occupe automatiquement de l'architecture machine $\to$ plus facile a coder et a lire mais moins performant
+    \item \href{https://fr.wikipedia.org/wiki/Langage_de_programmation_dynamique}{Dynamique} :
+    pas de déclaration des variables $\to$ facilite le codage mais peut induire des erreurs si on ne code pas proprement
+    \item \href{https://fr.wikipedia.org/wiki/Paradigme_(programmation)}{Multi-paradigmes} : programmation procédurale, fonctionnelle, orientée objet, ... $\to$ on peut utiliser des techniques de programmation plus en plus poussées tout en restant dans le même langage
+    \item \href{https://fr.wikipedia.org/wiki/Licence_libre}{Open source} :
+    le code source est disponible pour pouvoir être étudié et amélioré par tous $\to$ le langage est et restera gratuit pour tous, ce qui facilite la collaboration
+    \item Multiplateformes : disponible sur Linux, Mac, Windows, Android, ...
+\end{itemize}
+
+Python a été conçu pour être le plus lisible possible, car d'après son créateur \href{https://fr.wikipedia.org/wiki/Guido_van_Rossum}{Guido van Rossum}, le code est lu bien plus souvent qu'il n'est écrit. La philosophie du langage est résumée dans le \href{https://fr.wikipedia.org/wiki/Zen_de_Python}{\texttt{Zen de Python}}.
+
+Les outils les plus utiles aux physicien-ne-s sont principalement \href{http://www.numpy.org/}{\texttt{numpy}} pour travailler avec des vecteurs et matrices, ainsi que \href{https://matplotlib.org/}{\texttt{matplotlib}} pour afficher des graphiques. Ces deux modules font partie de la suite \href{https://scipy.org/about.html}{\texttt{scipy}}, qui contient \href{https://docs.scipy.org/doc/scipy/reference/index.html}{de nombreux autres outils}.
+
+Pour des applications plus spécifiques, il peut être pertinent de faire une recherche dans le \href{https://pypi.org/}{le Python Package Index (PyPI)} avant de coder soi même une solution. Ces modules peuvent être installés \href{https://docs.python.org/fr/3.7/tutorial/venv.html#managing-packages-with-pip}{à l'aide de l'outil \texttt{pip}}.
+
+\subsection*{Documentation généraliste}
+
+Livre complet sur la programmation en Python :\\
+\url{http://inforef.be/swi/download/apprendre_python3.pdf}
+
+\noindent{Autre livre, plus condensé :\\
+\url{https://perso.limsi.fr/pointal/_media/python:cours:courspython3.pdf}}
+
+\noindent{Cours intensif Python pour scientifiques (Jupyter notebook, en anglais) :\\
+\url{https://nbviewer.jupyter.org/gist/rpmuller/5920182}}
+
+\noindent{La même chose en français (la partie 1 est disponible en lien dans l'encadré) :\\
+\url{https://python.developpez.com/tutoriels/cours-intensif-scientifique/module-numpy-scipy/}}
+
+\noindent{Tutoriel généraliste très complet :\\
+\url{https://openclassrooms.com/fr/courses/235344-apprenez-a-programmer-en-python}}
+
+\noindent{Un cours sur l'utilisation de la suite \texttt{scipy} (en anglais) :\\
+\url{http://scipy-lectures.org/}}
+
+\noindent{Le site officiel de Python, plein de tutoriels :\\
+\url{https://docs.python.org/fr/3.7/tutorial/index.html}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Utilisation et syntaxe}
+La syntaxe du langage est résumée dans les parties suivantes. Pour plus de détails, se reporter au résumé de la syntaxe Python dans les références.
+
+\subsection*{Types de variables}
+Il existe différents \href{https://fr.wikibooks.org/wiki/Programmation_Python/Types}{types de variables} en Python : \href{https://fr.wikibooks.org/wiki/Programmation_Python/Num\%C3\%A9riques}{les entiers, réels, complexes} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Bool\%C3\%A9ens}{booléens}, ainsi que les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Chaines_de_caract\%C3\%A8res}{chaînes de caractères} et des conteneurs tels que les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Listes}{listes}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Tuples}{tuples}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Dictionnaires}{dictionnaires} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles}{ensembles}. Les conteneurs peuvent contenir chacun des types précédents ou n'importe quel autre objet.
+
+\begin{tabular}{|l|l|l|l|l|}
+    \hline
+    Type                    & Mot clef  & Mutable   & Itérable  & Exemple\\
+    \hline
+    Entier                  & int       & Non       & Non       & \texttt{1}, \texttt{-36}, \texttt{int("2.0")}\\
+    Réel                    & float     & Non       & Non       & \texttt{2.54}, \texttt{3e7}, \texttt{float(7)}\\
+    Complexe                & complex   & Non       & Non       & \texttt{1+2j}, \texttt{complex((7,3))}\\
+    Booléen                 & bool      & Non       & Non       & \texttt{True}, \texttt{False}, \texttt{bool(0)}\\
+    Ch. de carac.           & str       & Non       & Oui       & \texttt{"coucou"}, \texttt{'coucou'}, \texttt{str(4e-8)}\\
+    Liste                   & list      & Oui       & Oui       & \texttt{["a", 4, 2.3]}, \texttt{list((4.8, 7.2, 3.9))}\\
+    Tuple                   & tuple     & Non       & Oui       & \texttt{("a", 4, 2.3)}, \texttt{tuple([2.4, 7.2])}\\
+    Dictionnaire            & dict      & Oui       & Oui       & \texttt{\{'a':1, 'b':2\}}, \texttt{dict([("a", 1),("b", 2)])}\\
+    Ensemble                & set       & Non       & Oui       & \texttt{\{'a', 'b'\}}, \texttt{set(["a", "b"])}\\
+    \hline
+\end{tabular}
+
+Une variable mutable est une variable dont on peut modifier la valeur. On peut modifier la valeur des éléments d'une liste (\texttt{lst[4] = 3}), mais pas d'un tuple. Pour les types non mutables, on doit créer une nouvelle variable/écraser la variable utilisée pour modifier sa valeur (\texttt{i = i + 1}, \texttt{txt = txt + "dzja"}).
+
+Une variable itérable contient plusieurs éléments sur lesquels on peut boucler (itérer).
+
+Le mot clef \texttt{None} est aussi réservé, et signifie "Aucun, Rien, Néant". On l'utilise souvent pour initialiser une variable qui sera redéfinie plus tard.
+
+Les listes, tuples et chaînes de caractères sont ordonnés (on peut utiliser un indice pour repérer une position) alors que les dictionnaires et ensembles ne le sont pas.
+
+Les entiers et réels nuls ont une valeur booléenne de \texttt{False}, ainsi que les chaînes de caractère ou conteneurs vides (\texttt{""}, \texttt{\{\}}, ...).
+
+\subsection*{Opérateurs}
+\href{https://fr.wikibooks.org/wiki/Programmation_Python/Op\%C3\%A9rateurs}{Un opérateur} est un moyen d'effectuer une opération entre opérandes.
+
+\begin{tabular}{|l|l|}
+    \hline
+    Opérateur   & Utilisation\\
+    \hline
+    \texttt{=}                      & Affectation (tout type)\\
+    \texttt{+}                      & Addition (int, float) ou concaténation (str, list, tuple)\\
+    \texttt{-}                      & Soustraction (int, float) ou différence d'ensemble (list, tuple, dict)\\
+    \texttt{*}                      & Multiplication (int, float) ou répétition (list, tuple)\\
+    \texttt{/}                      & Division (int, float)\\
+    \texttt{//}                     & Division entière (int, float)\\
+    \texttt{\%}                     & Modulo (int, float)\\
+    \texttt{**}                     & Élévation a la puissance (int, float)\\
+    \texttt{>}, \texttt{<}          & Supérieur, inférieur (int, float)\\
+    \texttt{>=}, \texttt{<=}        & Supérieur ou égal, inférieur ou égal (int, float)\\
+    \texttt{==}                     & Est égal (tout type)\\
+    \texttt{!=}                     & Est différent (tout type)\\
+    \texttt{is}                     & Adresses mémoires égales (list, tuple, dict)\\
+    \texttt{in}                     & Appartient (list, tuple, dict)\\
+    \texttt{not}                    & NON logique (bool)\\
+    \texttt{and}                    & ET logique (bool)\\
+    \texttt{or}                     & OU logique (bool)\\
+    \texttt{+=}, \texttt{*=}, ...   & Addition, multiplication, ... puis affectation (tout type)\\
+    \texttt{.}                      & Attribut (objet, tout type)\\
+    \texttt{[i]}                    & Indice i (list, tuple)\\
+    \texttt{[i:j]}                  & Sélection entre les indices i inclus et j exclu (list, tuple)\\
+    \texttt{[i:j:k]}                & Sélection entre les indices i et j avec un pas de k (list, tuple)\\
+    \texttt{(param=0)}              & Appel de fonction avec le paramètre \texttt{param} qui vaut \texttt{0} (fonction, classe)\\
+    \hline
+\end{tabular}
+
+\href{https://fr.wikibooks.org/wiki/Programmation_Python/Tableau_des_op\%C3\%A9rateurs}{Il existe d'autres opérateurs} (\texttt{\^}, \texttt{|}, \texttt{\&}, \texttt{>>}, \texttt{<<}, \texttt{\~}) moins utiles pour la programmation scientifique.
+
+Il est intéressant de noter que pour effectuer une opération mathématique sur les éléments d'une liste, il est nécessaire de boucler sur ces éléments. L'utilisation de \texttt{numpy.array} permet de contourner le problème.
+
+Il est aussi souvent utile d'accéder au derniers éléments d'une liste ou d'un tuple. On peux y accéder en utilisant des indices négatifs (l'indice \texttt{-1} correspond au dernier indice, \texttt{-2} a l'avant dernier, ...). On peut aussi omettre un indice lors d'une sélection, ce qui utilisera par défaut \texttt{0} a gauche et \texttt{-1} a droite (\texttt{[:4]} sélectionne les éléments de la liste jusqu'à l'indice 4 exclus)
+\subsection*{Instructions}
+\href{https://fr.wikibooks.org/wiki/Programmation_Python/Tableau_des_mots_r\%C3\%A9serv\%C3\%A9s}{Certains mot clés sont réservés par le langage} (et ne peuvent pas être redéfinis) afin de pouvoir effectuer différentes instructions, dont voici quelques exemples :
+
+\begin{tabular}{|l|l|}
+    \hline
+    Instruction                     & Utilisation\\
+    \hline
+    \texttt{import mod}             & Importe le module \texttt{mod}\\
+    \texttt{from mod import func}   & Importe la fonction \texttt{func} du module \texttt{mod}\\
+    \texttt{import mod as m}        & Importe le module \texttt{mod} et définit l'alias \texttt{m}\\
+    \texttt{del var}                & Suppression de la variable \texttt{var}\\
+    \texttt{if txt == "test":}      & Exécute le bloc d'instructions suivant si la chaîne \texttt{txt} vaut \texttt{"test"}\\
+    \texttt{else:}                  & Sinon, exécute le bloc qui suit cette instruction\\
+    \texttt{elif txt == "tmp":}     & Combinaison de \texttt{else} et \texttt{if}\\
+    \texttt{while i < 10:}          & Exécute un bloc d'instructions (boucle) tant que \texttt{i<10}\\
+    \texttt{for i in range(5):}     & Fait boucler la variable \texttt{i} de \texttt{0} à \texttt{4} en exécutant le bloc suivant\\
+    \texttt{pass}                   & Ne fait rien. Utile pour coder un prototype a terminer plus tard\\
+    \texttt{break}                  & Termine la boucle en cours\\
+    \texttt{continue}               & Passe a l'itération suivante dans une boucle\\
+    \texttt{def func(a,b=2):}       & Définit la fonction \texttt{func} prenant deux paramètres dont un par défaut\\
+    \texttt{return a**2}            & Retourne la valeur \texttt{a**2}. A utiliser uniquement dans une fonction\\
+    \texttt{class ExempleDeClasse:} & Définit la classe \texttt{ExempleDeClasse}\\
+    \texttt{raise NameError('msg')} & Lève une exception (erreur) de type \texttt{NameError} avec le message \texttt{'msg'}\\
+    \texttt{try:}                   & Exécute le bloc suivant si aucune exception n'est levée\\
+    \texttt{except TypeError:}      & Exécute le bloc suivant si une exception \texttt{TypeError} est levée\\
+    \texttt{finally:}               & Exécute le bloc suivant après avoir géré les exceptions\\
+    \texttt{with}                   & ...\\
+    \texttt{lambda x: x**2}         & Définit une fonction anonyme qui retourne \texttt{x**2}\\
+    \hline
+\end{tabular}
+
+\subsection*{Fonctions natives}
+
+\begin{tabular}{|l|l|}
+    \hline
+    Fonction                                    & Utilisation\\
+    \hline
+    \texttt{print('msg')}                       & Affiche le message \texttt{'msg'} a l'écran\\
+    \texttt{input()}                            & Récupère une entrée utilisateur\\
+    \texttt{min(x)}, \texttt{max(x)}            & Renvoie le minimum, maximum de \texttt{x}\\
+    \texttt{sum(x)}, \texttt{len(x)}            & Renvoie la somme des éléments, la longueur de \texttt{x}\\
+    \texttt{round()}                            & \\
+    \texttt{range(n)}                           &\\
+    \texttt{enumerate(x)}                       &\\
+    \texttt{map()}, \texttt{zip()}              & \\
+    \texttt{sorted()}, \texttt{reversed()}      & \\
+    \texttt{type(x)}                            & Renvoie le type de la variable \texttt{x}\\
+    \texttt{filter()}                           &\\
+    \texttt{exec()}, \texttt{eval()}            &\\
+    \texttt{open()}                             &\\
+    \texttt{any()}, \texttt{all()}              &\\
+    \texttt{help()}                             & aa\\
+    \hline
+\end{tabular}
+
+En Python2, les fonctions \texttt{print} et \texttt{exec} sont des instructions et la fonction \texttt{input} s'appelle \texttt{raw\_input}.
+
+Python est livré "piles incluses", i.e. avec \href{https://docs.python.org/3/py-modindex.html}{un grand nombre de modules} par défaut (mathématiques avec le module \texttt{math}, aléatoire avec \texttt{random}, parallélisation avec \texttt{multiprocessing}, ...). Il est très souvent pertinent de chercher dans la documentation de ces modules plutôt que de re coder des fonctions déjà présentes dans le langage (et souvent mieux implémentées). Les modules de la suite \texttt{scipy} ajoutent de nombreuses autres fonctions (intégration, dérivation, résolution d'équations différentielles ordinaires, ...) qui ont été optimisées pour diminuer le temps de calcul : profitez en !
+
+Voici quelques fonctions parmi les plus utiles de la suite scipy (\texttt{numpy} est noté \texttt{np} et \texttt{matplotlib.pyplot} est noté \texttt{plt}):
+
+\begin{tabular}{|l|l|}
+    \hline
+    Fonction                                    & Utilisation\\
+    \hline
+    \texttt{np.array(lst)}                      & Converti la liste \texttt{lst} en objet \texttt{np.array}\\
+    \texttt{np.linspace(min, max, n)}           & Créé un vecteur de \texttt{min} a \texttt{max} avec \texttt{n} bins\\
+    \texttt{np.arange(min, max, dx)}            & Créé un vecteur de \texttt{min} a \texttt{max} avec un espacement de \texttt{dx}\\
+    \texttt{np.logspace(min, max, n)}           & Créé un vecteur de \texttt{min} a \texttt{max} avec \texttt{n} bins espacés en log\\
+    \texttt{np.transpose(mat)}                  & Effectue la transposition de la matrice \texttt{mat}\\
+    \texttt{np.dot(vec1,vec2)}                  & Effectue le produit scalaire entre deux vecteurs\\
+    \texttt{np.sin(x)}, \texttt{np.exp(x)}      & Calcule le sinus, l'exponentielle de \texttt{x}\\
+    \texttt{np.trapz(y,x)}                      & Intègre \texttt{y} par rapport à \texttt{x} via la méthode des trapèzes\\
+    \texttt{np.gradient(y,x)}                   & Dérive \texttt{y} par rapport a \texttt{x}\\
+    \texttt{np.mean(x)}                         & Calcule la valeur moyenne de \texttt{x}\\
+    \texttt{np.histogram(data)}                 & Créé un histogramme 1 dimension du vecteur \texttt{data}\\
+    \texttt{np.histogramdd(data)}               & Créé un histogramme n dimensions des données \texttt{data}\\
+    \texttt{np.meshgrid(x,y,indexing='ij')}     & Créé une matrice 2D à partir de 2 vecteurs 1D\\
+    \texttt{np.rand.rand(20,20)}                & Créé une matrice 20x20 avec valeurs aléatoires entre 0 et 1\\
+    \texttt{plt.figure(0)}                      & Créé ou sélectionne la figure \texttt{0}\\
+    \texttt{plt.clf()}                          & Nettoie la figure courante\\
+    \texttt{plt.show()}                         & Affiche une figure\\
+    \texttt{plt.ion()}, \texttt{plt.ioff()}     & Active, désactive le mode interactif\\
+    \texttt{plt.plot(x,y,label="data")}         & Trace \texttt{y} en fonction de \texttt{x} avec la légende \texttt{"data"}\\
+    \texttt{plt.step(x,y,label="data")}         & Idem précédent, mais avec un style histogramme\\
+    \texttt{plt.pcolormesh(gx,gy,data)}         & Trace une carte 2D de \texttt{data} en fonction de \texttt{gx} et \texttt{gy}\\
+    \texttt{plt.colorbar()}                     & Affiche l'échelle de couleur (pour carte 2D)\\
+    \texttt{plt.legend()}                       & Affiche la légende\\
+    \texttt{plt.xscale('log')}                  & Passe l'échelle des abscisses en log (\texttt{"linear"} pour linéaire)\\
+    \texttt{plt.xlabel('\$x\$ [\$m\$]')}        & Change le label de l'axe des abscisses (format LaTeX)\\
+    \hline
+\end{tabular}
+
+\subsection*{Formatage des chaînes de caractères}
+Pour pouvoir afficher du texte a l'écran ou exporter des données dans un fichier, il est pertinent d'adopter un format facile a lire et qui soit le même pour toutes les données (même précision). Il existe deux méthodes pour pouvoir insérer une valeur (\texttt{val}) dans une chaîne de caractères : 
+\begin{itemize}
+    \item \texttt{"Valeur : \%fmt unité"\%val} (plutôt Python2) 
+    \item \texttt{"Valeur : \{id:fmt\} unité".format(id=val)} (plutôt Python3)
+\end{itemize}
+
+Le tableau suivant résume les principaux formats.
+
+\begin{tabular}{|l|l|}
+    \hline
+    Format (fmt)    & Type de conversion\\
+    \hline
+    s               & str\\
+    i               & int\\
+    .2f             & float (2 décimales)\\
+    .2e             & float en notation scientifique (2 décimales)\\
+    \hline
+\end{tabular}
+
+On peut aussi fixer le nombre de caractères à utiliser pour combler avec des espaces (\texttt{10.4f} pour un réel de 4 décimales sur 10 caractères), réserver un caractère pour le signe (avec un espace, \texttt{ i} pour un entier signé), ... Voire les références.
+
+Les caractères \texttt{"\textbackslash n"} sont interprétés comme un retour a la ligne, et les caractères \texttt{"\textbackslash t"} comme une tabulation.
+
+En Python2 il peut y avoir quelques problèmes pour utiliser les accents (du à une mauvaise gestion de l'\href{https://fr.wikipedia.org/wiki/Unicode}{unicode}). Si tel est le cas, il faut insérer la ligne \texttt{\# coding:utf8} au début du script et insérer la lettre \texttt{u} avant chaque chaîne de caractère pour la convertir en \href{https://fr.wikipedia.org/wiki/UTF-8}{unicode utf8} (\texttt{u"Chaîne de caractères avec accents"}).
+
+\subsection*{Gestion de fichiers}
+
+Pour sauvegarder ses données de simulation ou d'analyse, il est bien souvent nécessaire d'exporter ses données dans un fichier. Il peut exister de nombreux formats de fichiers, mais le plus simple reste tout de même le fichier texte a plusieurs colonnes. \href{https://docs.scipy.org/doc/numpy/reference/routines.io.html#text-files}{Les fonctions \texttt{numpy.savetxt} et \texttt{numpy.loadtxt}} peuvent être très utiles, mais si besoin voici tout de même un exemple d'implémentation avec les fonctions Python :
+
+\begin{verbatim}
+# Import de numpy
+import numpy as np
+# Création de données aléatoires entre 0 et 1 (100 lignes)
+x = np.random.rand(100)
+y = np.random.rand(100)
+# Première méthode pour écrire un fichier, il est conseillé d'utiliser with
+with open("nom_fichier.txt", "w") as f:     # Fichier ouvert en écriture (w)
+    f.write("! Titre. Données en SI.\n")    # Écriture du titre en commentaire
+    f.write("! %10s %10s\n"%("x","y"))      # Écriture de la légende
+    for ex,ey in zip(x,y):                  # Itération sur x,y
+        f.write("% 10.4e % 10.4e\n"%(ex,ey))# Écriture des données
+    # le fichier est fermé automatiquement grâce à l'instruction with
+
+# La même chose avec numpy.savetxt
+header_fichier = "! Titre. Données en SI.\n"# Ligne de titre avec retour a la ligne
+header_fichier += "! %10s %10s"%("x","y")   # Ajout de la ligne de légende
+np.savetxt(
+    "nom_fichier.txt",
+    [x,y],
+    fmt = '10.4e',
+    header = header_fichier,
+    comments = ""               # Les caractères de commentaires sont déjà dans le header
+    )
+
+# Seconde méthode, pour lire un fichier
+x,y = [],[]                     # Initialisation de x et y comme listes vides
+f = open("nom_fichier.txt",'r') # Ouverture du fichier en lecture (r)
+for line in f.readlines():      # Boucle sur toutes les lignes du fichier
+    if line[0] == "!": continue # Si commentaire -> itération suivante
+    data = line.split(" ")      # Créé une liste de str (séparateur = espace)
+    x.append(float(data[0]))    # Ajoute le premier élément de la liste a x
+    y.append(float(data[1]))    # Les données sont converties en float
+f.close()                       # Ne pas oublier de fermer le fichier !
+# On peut convertir les données en numpy array
+x = np.array(x)
+y = np.array(y)
+
+# La même chose avec numpy.loadtxt
+x,y=np.loadtxt(
+        "nom_fichier.txt",
+        unpack = True,
+        comments = "!"      # On peut utiliser le '#' en ajoutant un '\' devant ("\#")
+        )
+\end{verbatim}
+Modules \texttt{xml} pour les fichiers xml, module \texttt{json} pour les fichiers JSON.
+
+\subsection*{Références}
+
+Résumé de la syntaxe Python (28 pages) :\\ \url{http://www.xavierdupre.fr/site2013/documents/python/resume_utile.pdf}
+
+\noindent{Aide mémoire Python3 (2 pages) :\\ \url{https://perso.limsi.fr/pointal/_media/python:cours:mementopython3.pdf}}
+
+\noindent{Formatage de chaînes de caractères :\\
+\url{https://pyformat.info/}}
+
+\noindent{Liste des types natifs de Python3 :\\
+\url{https://docs.python.org/fr/3.5/library/stdtypes.html}}
+
+\noindent{Liste des modules standart de Python3 :\\
+\url{https://docs.python.org/3/py-modindex.html}}
+
+\noindent{Liste des fonctions natives de Python3 :\\
+\url{https://docs.python.org/fr/3.5/library/functions.html}}
+
+\noindent{Liste des fonctions numpy :\\
+\url{https://docs.scipy.org/doc/numpy/reference/routines.html}}
+
+\noindent{Tutoriels matplotlib :\\
+\url{https://matplotlib.org/tutorials/index.html}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Coder proprement}
+
+D'abord il faut savoir coder. On peut gagner du temps, éviter les erreurs et donc faire du travail de meilleure qualité en adoptant des conventions simples.
+
+Il peut sembler que cela fait perdre du temps aux premiers abords, mais dès qu'un programme commence a dépasser la centaine de ligne, il devient vite facile de s'y perdre, et ces conventions permettent de s'y retrouver \textbf{beaucoup} plus facilement. Elles deviennent indispensables dès qu'on veut travailler à plusieurs sur un même programme.
+
+\begin{itemize}
+    \item Codez pour les humains, pas pour les ordinateurs : 
+    \item Laissez l'ordinateur faire le travail : 
+    \item Améliorez votre code étape par étape :
+    \item Ne vous répétez pas : 
+    \item Prévoyez les erreurs : 
+    \item Optimisez le code seulement quand il fonctionne : 
+    \item Documentez le "pourquoi", pas le "comment" : 
+    \item Collaborez : 
+\end{itemize}
+
+\url{https://gigascience.biomedcentral.com/articles/10.1186/2047-217X-3-31}
+\url{https://ieeexplore.ieee.org/document/6886129/references#references}
+\url{https://ieeexplore.ieee.org/document/5069155}
+
+\subsection*{Structure du code}
+Fonctions atomisées $\to$ structure claire, plus facile a déboguer.
+
+Commentaires
+
+Utilisation de help()
+
+Modules
+
+Si pratique régulière de la programmation, intéressant de se former à l'orienté objet.
+
+\subsection*{Convention de nommage}
+Quand on programme pour soi, ça peut paraître inutile au premier abord d'adopter des règles claires concernant le nom des variables, fonctions et modules. Toutefois, à mesure que le programme se complexifie, il devient vite très facile d'oublier le but d'une instruction ou fonction (d'où l'importance des commentaires). Qui plus est, comme en Python l'allocation est dynamique, il arrive régulièrement d'écraser accidentellement la valeur d'une variable en la définissant une seconde fois dans le code (d'où l'intérêt d'avoir des noms de variables suffisamment explicites).
+
+La communauté Python adopte des règles claires concernant le nommage, afin d'éviter les problèmes précédents, et pour être plus facilement lu par soi même ou d'autres :
+
+\begin{itemize}
+    \item Les variables : \texttt{exemple\_de\_variable}
+    \item Les constantes (variables ne devant pas être modifiées) : \texttt{EXEMPLE\_DE\_CONSTANTE}
+    \item Les fonctions : \texttt{exemple\_de\_fonction} ou \texttt{exempleDeFonction}
+    \item Les classes : \texttt{ExempleDeClasse}
+    \item Les attributs ou méthodes privées (en programmation orientée objet) : \texttt{\_attribut\_ou\_methode}
+    \item Les modules : \texttt{exempledemodule} ou \texttt{exemple\_de\_module}
+\end{itemize}
+
+Pour indiquer que l'on affecte une valeur a une variable inutile, on utilise souvent l'underscore \texttt{\_} (par exemple : \texttt{utile, \_ = ('Données utiles', "On s'en fout")}). On doit aussi éviter les variables globales (sauf cas très particuliers), ainsi que les accents/caractères spéciaux comme noms de variables. Il est aussi recommandé d'utiliser des alias pour les modules (par exemple utiliser \texttt{import numpy as np} plutôt que \texttt{from numpy import *}) afin d'éviter d'écraser des fonctions précédemment définies. Comme les instructions sont en anglais, le plus clair est de coder et commenter en anglais si possible.
+
+\subsection*{Références}
+Rapide résumé de pourquoi et comment bien coder :\\
+\url{https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/algo/cours/algo/bonnes_pratiques.html}
+
+\noindent{Beaucoup de choses très utiles pour écrire du bon code :\\
+\url{https://python-guide-pt-br.readthedocs.io/fr/latest/index.html}}
+
+\noindent{Un court article scientifique sur l'importance de bien coder (la liste précédente en est largement inspirée) :\\
+\url{https://doi.org/10.1371/journal.pbio.1001745}}
+
+\noindent{La référence concernant les bonnes pratiques à adopter en Python (PEP8) :\\
+\url{https://www.python.org/dev/peps/pep-0008/}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Outils utiles}
+
+\subsection*{Environnement de développement intégré}
+En anglais : IDE
+
+\subsection*{Générer une documentation}
+Documentation très utile, mais souvent très laborieux. En utilisant la syntaxe qui va bien pour les commentaires de fonctions, il est très facile de génerer une documentation en pdf ou html à l'aide de Sphinx ou Doxygen.
+\url{https://fr.wikipedia.org/wiki/G\%C3\%A9n\%C3\%A9rateur_de_documentation}
+\subsection*{Gérer l'évolution de son code et collaborer en ligne}
+Outil permettant de suivre l'historique des modifications de un ou plusieurs fichiers, et de le synchroniser avec d'autres appareils (disque dur externe, serveur auto-hébergé, hébergement en ligne, ...).
+
+Plusieurs outils : Git, Mercurial, Subversion, ...
+
+Git est le plus utilisé, hébergement en ligne sur Github (dépots publics gratuits), Gitlab (dépots publics et privés gratuits), BitBucket, Framagit, ...
+
+GitKraken, 
+
+\subsection*{Références}
+\noindent{Liste d'IDE Python :\\
+\url{https://wiki.python.org/moin/IntegratedDevelopmentEnvironments}}
+
+\noindent{IDE Pyzo :\\
+\url{https://pyzo.org/}}
+
+\noindent{IDE Spyder :\\
+\url{https://www.spyder-ide.org/}}
+
+\noindent{Liste d'éditeurs Python :\\
+\url{https://wiki.python.org/moin/PythonEditors}}
+
+\noindent{Éditeur Atom :\\
+\url{https://atom.io/}}
+
+\noindent{Éditeur Geany :\\
+\url{https://www.geany.org/}}
+
+\noindent{Jupyter Notebook :\\
+\url{}}
+
+\noindent{Liste de générateurs de documentation :\\
+\url{https://en.wikipedia.org/wiki/Comparison_of_documentation_generators}}
+
+\noindent{Python Sphinx :\\
+\url{http://www.sphinx-doc.org/en/master/}}
+
+\noindent{Doxygen :\\
+\url{http://www.doxygen.nl/}}
+
+\noindent{Site officiel de git :\\
+\url{https://git-scm.com/}}
+
+\noindent{Introduction a git en français (très bien fait) :\\
+\url{https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/intro-git/}}
+
+\noindent{Aide mémoire git (2 pages) :\\
+\url{https://services.github.com/on-demand/downloads/fr/github-git-cheat-sheet.pdf}}
+
+\noindent{Comparaison des offres d'hébergement de code en ligne (Github, Bitbucket, Gitlab, ...) :\\
+\url{https://en.wikipedia.org/wiki/Comparison_of_source-code-hosting_facilities}}
+\end{document}
