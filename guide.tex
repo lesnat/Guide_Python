@@ -11,19 +11,22 @@
 
 \maketitle
 
+Ce guide s'adresse aux scientifiques ayant quelques notions de programmation, et permet de survoler la syntaxe et les spécificités du langage Python ainsi que les erreurs les plus courantes. La version numérique contient de nombreux liens renvoyant vers une documentation plus complète.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Python : pourquoi faire ?}
-La programmation est quasi-indispensable pour faire de la physique aujourd'hui $\to$ permet de résoudre des problèmes non solubles analytiquement (pour faire des prédictions théoriques) et analyser les données d'expérience et de simulation.
+La programmation est quasi-indispensable pour faire de la physique aujourd'hui $\to$ permet de résoudre des problèmes non solubles analytiquement (pour faire des prédictions théoriques), tracer des courbes et analyser les données d'expérience et de simulation.
 
 \href{https://fr.wikipedia.org/wiki/Python_(langage)}{Python} est un langage de choix pour effectuer ces opérations simplement. Toutefois si le programme nécessite un temps d'exécution important, il peut être intéressant d'utiliser un langage compilé (C, C++, Fortran, ...).
 
 Les spécificités de Python sont :
 \begin{itemize}
     \item \href{https://fr.wikipedia.org/wiki/Interpr\%C3\%A8te_(informatique)}{Langage interprété} :
-    la traduction en langage machine est effectuée à chaque exécution du programme $\to$ il est possible d'exécuter des instructions dynamiquement dans une console (débogage plus facile), mais l'exécution du programme est plus lente que pour un programme compilé
+    la traduction en langage machine est effectuée à chaque exécution $\to$ il est possible d'exécuter des instructions dans une console interactive (tests et débogage plus faciles), mais l'exécution du programme est plus lente que pour un programme compilé
     \item \href{https://en.wikipedia.org/wiki/List_of_Python_software}{Polyvalent} :
     nombreux modules pour applications scientifiques, interfaces graphiques, le web, les jeux vidéos, ...
     \item \href{https://fr.wikipedia.org/wiki/Langage_de_haut_niveau}{(Très) Haut niveau} :
-    l'interpréteur s'occupe automatiquement de l'architecture machine $\to$ plus facile a coder et a lire mais moins performant
+    l'interpréteur s'occupe automatiquement de l'architecture machine $\to$ plus facile a coder et a lire mais potentiellement moins performant
     \item \href{https://fr.wikipedia.org/wiki/Langage_de_programmation_dynamique}{Dynamique} :
     pas de déclaration des variables $\to$ facilite le codage mais peut induire des erreurs si on ne code pas proprement
     \item \href{https://fr.wikipedia.org/wiki/Paradigme_(programmation)}{Multi-paradigmes} : programmation procédurale, fonctionnelle, orientée objet, ... $\to$ on peut utiliser des techniques de programmation plus en plus poussées tout en restant dans le même langage
@@ -33,11 +36,12 @@ Les spécificités de Python sont :
 \end{itemize}
 
 Python a été conçu pour être le plus lisible possible, car d'après son créateur \href{https://fr.wikipedia.org/wiki/Guido_van_Rossum}{Guido van Rossum}, le code est lu bien plus souvent qu'il n'est écrit. La philosophie du langage est résumée dans le \href{https://fr.wikipedia.org/wiki/Zen_de_Python}{\texttt{Zen de Python}}.
-
+% Tout est objet et tout est passé par référence.
 Les outils les plus utiles aux physicien-ne-s sont principalement \href{http://www.numpy.org/}{\texttt{numpy}} pour travailler avec des vecteurs et matrices, ainsi que \href{https://matplotlib.org/}{\texttt{matplotlib}} pour afficher des graphiques. Ces deux modules font partie de la suite \href{https://scipy.org/about.html}{\texttt{scipy}}, qui contient \href{https://docs.scipy.org/doc/scipy/reference/index.html}{de nombreux autres outils}.
 
-Pour des applications plus spécifiques, il peut être pertinent de faire une recherche dans le \href{https://pypi.org/}{le Python Package Index (PyPI)} avant de coder soi même une solution. Ces modules peuvent être installés \href{https://docs.python.org/fr/3.7/tutorial/venv.html#managing-packages-with-pip}{à l'aide de l'outil \texttt{pip}}.
+Pour des applications plus spécifiques, il peut être pertinent de faire une recherche dans  \href{https://pypi.org/}{le Python Package Index (PyPI)} avant de coder soi même une solution. Ces modules peuvent être installés \href{https://docs.python.org/fr/3.7/tutorial/venv.html#managing-packages-with-pip}{à l'aide de l'outil \texttt{pip}}.
 
+%%%
 \subsection*{Documentation généraliste}
 
 Livre complet sur la programmation en Python :\\
@@ -52,6 +56,9 @@ Livre complet sur la programmation en Python :\\
 \noindent{La même chose en français (la partie 1 est disponible en lien dans l'encadré) :\\
 \url{https://python.developpez.com/tutoriels/cours-intensif-scientifique/module-numpy-scipy/}}
 
+\noindent{Python pour programmeurs :\\
+\url{https://perso.limsi.fr/pointal/_media/python:pythonpro.pdf}}
+
 \noindent{Tutoriel généraliste très complet :\\
 \url{https://openclassrooms.com/fr/courses/235344-apprenez-a-programmer-en-python}}
 
@@ -62,76 +69,108 @@ Livre complet sur la programmation en Python :\\
 \url{https://docs.python.org/fr/3.7/tutorial/index.html}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Utilisation et syntaxe}
-La syntaxe du langage est résumée dans les parties suivantes. Pour plus de détails, se reporter au résumé de la syntaxe Python dans les références.
+\section{Syntaxe et utilisation des différents types}
+La syntaxe du langage est résumée dans les parties suivantes. Ce document est toutefois très incomplet ; pour plus de détails, se reporter au résumé de la syntaxe Python dans les références ou a la documentation officielle Python (dont ce résumé est largement inspiré).
 
-\subsection*{Types de variables}
-Il existe différents \href{https://fr.wikibooks.org/wiki/Programmation_Python/Types}{types de variables} en Python : \href{https://fr.wikibooks.org/wiki/Programmation_Python/Num\%C3\%A9riques}{les entiers, réels, complexes} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Bool\%C3\%A9ens}{booléens}, ainsi que les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Chaines_de_caract\%C3\%A8res}{chaînes de caractères} et des conteneurs tels que les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Listes}{listes}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Tuples}{tuples}, \href{https://fr.wikibooks.org/wiki/Programmation_Python/Dictionnaires}{dictionnaires} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles}{ensembles}. Les conteneurs peuvent contenir chacun des types précédents ou n'importe quel autre objet.
+Pour toute la suite, l'affectation est réalisée par le signe \texttt{=} et on accède aux attributs et méthodes d'un objet par le \texttt{.} (en Python, tout est objet y compris les nombres). L'égalité se teste par le signe \texttt{==} et la différence par \texttt{!=}. Les raccourcis \texttt{+=}, \texttt{*=}, ... permettent de réaliser l'opération puis l'affectation (par exemple \texttt{i = i + 1} $\Leftrightarrow$ \texttt{i += 1}).
 
-\begin{tabular}{|l|l|l|l|l|}
+La fonction \texttt{help} est très utile pour accéder a la documentation d'un objet ou d'une fonction dans une console interactive.
+
+%%%
+\subsection*{Types numériques}
+L'utilisation la plus simple de Python est de s'en servir comme calculatrice (ce qui est grandement facilité par l'utilisation de la \href{https://fr.wikipedia.org/wiki/Interface_en_ligne_de_commande}{console interactive} \href{https://docs.python.org/fr/3.7/tutorial/interpreter.html}{\texttt{python}} ou \href{https://ipython.readthedocs.io/en/stable/}{\texttt{ipython}}, servez vous en !). Le langage contient donc \href{https://fr.wikibooks.org/wiki/Programmation_Python/Num\%C3\%A9riques}{les types numériques entiers, réels et complexes}, qui sont simplement des nombres. On peut les utiliser comme suit :
+
+\begin{tabular}{|l|l|l|l|}
     \hline
-    Type                    & Mot clef  & Mutable   & Itérable  & Exemple\\
+    Type                    & Objet Python      & Exemples                      & Conversion\\
     \hline
-    Entier                  & int       & Non       & Non       & \texttt{1}, \texttt{-36}, \texttt{int("2.0")}\\
-    Réel                    & float     & Non       & Non       & \texttt{2.54}, \texttt{3e7}, \texttt{float(7)}\\
-    Complexe                & complex   & Non       & Non       & \texttt{1+2j}, \texttt{complex((7,3))}\\
-    Booléen                 & bool      & Non       & Non       & \texttt{True}, \texttt{False}, \texttt{bool(0)}\\
-    Ch. de carac.           & str       & Non       & Oui       & \texttt{"coucou"}, \texttt{'coucou'}, \texttt{str(4e-8)}\\
-    Liste                   & list      & Oui       & Oui       & \texttt{["a", 4, 2.3]}, \texttt{list((4.8, 7.2, 3.9))}\\
-    Tuple                   & tuple     & Non       & Oui       & \texttt{("a", 4, 2.3)}, \texttt{tuple([2.4, 7.2])}\\
-    Dictionnaire            & dict      & Oui       & Oui       & \texttt{\{'a':1, 'b':2\}}, \texttt{dict([("a", 1),("b", 2)])}\\
-    Ensemble                & set       & Non       & Oui       & \texttt{\{'a', 'b'\}}, \texttt{set(["a", "b"])}\\
+    Entier                  & int               & \texttt{1}, \texttt{-36}      & \texttt{int("2.0")}\\
+    Réel                    & float             & \texttt{2.54}, \texttt{3e7}   & \texttt{float(7)}\\
+    Complexe                & complex           & \texttt{1+2j}                 & \texttt{complex(7,3)}\\
     \hline
 \end{tabular}
 
-Une variable mutable est une variable dont on peut modifier la valeur. On peut modifier la valeur des éléments d'une liste (\texttt{lst[4] = 3}), mais pas d'un tuple. Pour les types non mutables, on doit créer une nouvelle variable/écraser la variable utilisée pour modifier sa valeur (\texttt{i = i + 1}, \texttt{txt = txt + "dzja"}).
+puis les combiner à l'aide des opérations \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{//} (division entière), \texttt{**} (élévation a la puissance) ou les comparer à l'aide de \texttt{==}, \texttt{!=}, \texttt{>}, \texttt{<}, \texttt{>=}, \texttt{<=}. Il est possible de raccourcir le test \texttt{i > 10 and i < 25} par \texttt{10 < i < 25}.
 
-Une variable itérable contient plusieurs éléments sur lesquels on peut boucler (itérer).
+La fonction \texttt{abs} renvoie la valeur absolue et \href{https://docs.python.org/fr/3.5/library/functions.html#round}{la fonction \texttt{round}} peut être utile pour faire un arrondi, ainsi que les \href{https://docs.scipy.org/doc/numpy/reference/routines.math.html#rounding}{fonctions numpy \texttt{ceil}, \texttt{floor}, \texttt{trunc} (arrondi supérieur, inférieur, troncature)}.
 
-Le mot clef \texttt{None} est aussi réservé, et signifie "Aucun, Rien, Néant". On l'utilise souvent pour initialiser une variable qui sera redéfinie plus tard.
+En Python2, la division entre deux entiers renvoie un entier (réel en Python3) $\to$ il est nécessaire de convertir le numérateur ou dénominateur en réel avant de diviser !
 
-Les listes, tuples et chaînes de caractères sont ordonnés (on peut utiliser un indice pour repérer une position) alors que les dictionnaires et ensembles ne le sont pas.
+%%%
+\subsection*{Booléens}
+Les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Bool\%C3\%A9ens}{booléens} ont deux valeurs possibles, \texttt{True} et \texttt{False}. On peut les combiner avec \texttt{not} (NON logique), \texttt{and} (ET logique) et \texttt{or} (OU logique). Ce type est nommé \texttt{bool} en Python.
 
-Les entiers et réels nuls ont une valeur booléenne de \texttt{False}, ainsi que les chaînes de caractère ou conteneurs vides (\texttt{""}, \texttt{\{\}}, ...).
+Les valeurs numériques \texttt{0}, \texttt{0.} et \texttt{0j}, les chaînes de caractères vides \texttt{""} et les conteneurs vides (ordonnés ou non) \texttt{[]}, \texttt{()}, \texttt{\{\}} ainsi que \texttt{None} ont une valeur booléenne considérée comme \texttt{False}. Toutes les autres valeurs sont considérées comme \texttt{True}. On peut utiliser ces caractéristiques pour alléger le code lors de tests \texttt{if} ou \texttt{while}.
 
-\subsection*{Opérateurs}
-\href{https://fr.wikibooks.org/wiki/Programmation_Python/Op\%C3\%A9rateurs}{Un opérateur} est un moyen d'effectuer une opération entre opérandes.
+%%%
+\subsection{Conteneurs ordonnés}
+Les conteneurs sont des objets pouvant en contenir d'autres (nombres, chaînes, autres conteneurs, ...). Certains d'entre eux conservent l'ordre dans lequel on les a initialisé, et on les appelle alors conteneurs ordonnés. En Python il y a deux types natifs de conteneurs ordonnés : \href{https://fr.wikibooks.org/wiki/Programmation_Python/Listes}{les listes},  et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Tuples}{les tuples}. En programmation scientifique on utilise aussi très souvent les objets \href{https://docs.scipy.org/doc/numpy/reference/arrays.html}{\texttt{numpy.array}} pour effectuer des calculs.
+
+Les tuples sont des conteneurs ordonnés \href{https://fr.wikipedia.org/wiki/Objet_immuable}{immuables}, i.e. ses éléments (pas forcément du même type) ne peuvent pas être modifiés après l'initialisation. On les initialise grâce aux parenthèses \texttt{(elem1, elem2, ...)} ou simplement en les séparant par des virgules \texttt{elem1, elem2, ...}. \href{http://apprendre-python.com/page-apprendre-tuples-tuple-python}{On utilise surtout les tuples} pour faire des affectations multiples \texttt{a, b = 1, 2}, définir des constantes ou initialiser des paramètres par défaut dans une fonction (\href{https://python-guide-pt-br.readthedocs.io/fr/latest/writing/gotchas.html#mutable-default-arguments}{utiliser des listes peut induire un comportement non désiré}). Il est possible de convertir une liste \texttt{lst} en tuple en utilisant \texttt{tuple(lst)}.
+
+Les listes sont similaires aux tuples mais sont muables (on peut changer la valeur d'un élément ou en ajouter/supprimer). On les initialise grâce aux crochets \texttt{["aa",4e8,(1,3,7)]}. Les méthodes associées à ce type les plus utiles sont \texttt{append} pour ajouter un élement à la fin de la liste, \texttt{insert(i,elem)} pour ajouter l'élément \texttt{elem} à la position \texttt{i}, ainsi que \texttt{sort} pour trier la liste et \texttt{copy} pour en créer une copie. La fonction \texttt{range(min, max, step)} permet de générer une liste (en Python2) ou un itérable (Python3, utiliser \texttt{list(range(min,max,step))} pour créer une liste) de nombre entiers entre \texttt{min} inclu et \texttt{max} exclu avec un pas de \texttt{step} (par exemple \texttt{list(range(0,10,2))} renvoie \texttt{[0,2,4,6,8]}). Les paramètres \texttt{min} et \texttt{step} sont optionels (valeurs par défaut \texttt{0} et \texttt{1}).
+
+Pour les tuples et les listes, l'opérateur \texttt{+} concatène la liste de gauche avec celle de droite (\texttt{[0, 1, 2] + [3, 4]} donne \texttt{[0, 1, 2, 3, 4]}) et l'opérateur \texttt{*} répète le conteneur à gauche le nombre a droite de fois (\texttt{[0] * 3} donne \texttt{[0, 0, 0]}) bien que \href{https://docs.python.org/fr/3.5/faq/programming.html#faq-multidimensional-list}{cette approche soit déconseillée pour créer des listes de listes}.
+
+Les array sont des conteneurs de \textbf{nombres} fournis par la bibliothèque \texttt{numpy} et sont les conteneurs les plus souvent utilisés en programmation scientifique (avec les listes). Ce type est muable, et a la différence des listes, les opérateurs effectuent des opérations mathématiques élément par élément (par exemple \texttt{a = np.array(range(0,5))} puis \texttt{a = a**2} donne \texttt{array([0.0, 1.0, 4.0, 9.0, 16.0])}). Toutes les opérations et méthodes numpy sont beaucoup plus rapides que de boucler sur tout les éléments d'une liste (car elles sont en fait codées en C), tirez en parti !
+ 
+Pour accéder a l'indice \texttt{i} d'un conteneur ordonné, on utilise les crochets \texttt{cont[i]}. On peux aussi sélectionner la tranche (slice) du conteneur entre les indices \texttt{i} inclus et \texttt{j} exclus en utilisant \texttt{cont[i:j]}. Il est possible d'ommetre un ou les deux indices lors d'une sélection, les valeurs par défaut étant le premier et le dernier élément. Pour sélectionner une tranche de conteneur entre \texttt{i} et \texttt{j} avec un pas \texttt{k}, on utilise \texttt{cont[i:j:k]}. L'indice \texttt{-1} corresponds au dernier élement du conteneur, l'indice \texttt{-2} a l'avant dernier, ... Pour les conteneurs ordonnés muables, on peu changer la valeur d'un élément ou d'une tranche en utilisant \texttt{cont1[i:j] = cont2}.
+
+\href{https://docs.python.org/fr/3.6/tutorial/datastructures.html#list-comprehensions}{Compréhension de liste}
+
+Une des grandes forces de Python pour la programmation scientifique : \texttt{a[b==c]}
+
+Fonction map et zip, enumerate, sorted, reversed, any, all, filter, sum, len
+
+%%%
+\subsection{Conteneurs non ordonnés}
+ \href{https://fr.wikibooks.org/wiki/Programmation_Python/Dictionnaires}{dictionnaires} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles}{ensembles}.
+ 
+%%%
+\subsection*{Chaînes de caractères}
+% Conteneur ordonné -> même méthodes et opérations
+
+Les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Chaines_de_caract\%C3\%A8res}{chaînes de caractères} sont utiles pour afficher du texte a l'écran ou exporter des données dans un fichier. Elles peuvent être créées en entourant le texte de \texttt{"} ou de \texttt{'} (par exemple \texttt{"Ceci est une chaîne"}). On peux aussi utiliser trois \texttt{"} ou \texttt{'} pour écrire sur plusieurs lignes. Pour ajouter une chaîne après une autre (concaténation), on utilise le signe \texttt{+}.
+
+Les chaînes de caractères sont itérables (on peut boucler dessus), immuables (on ne peut pas les modifier) et ordonnées (les lettres restent dans le bon ordre). Ce sont en fait des conteneurs ordonnés, et on peut donc utiliser les fonctions définies précédemment (notamment les indices pour sélectionner une tranche de chaîne).
+
+Les caractères \texttt{"\textbackslash n"} sont interprétés comme un retour a la ligne, et les caractères \texttt{"\textbackslash t"} comme une tabulation. Le signe \texttt{\textbackslash} est appelé \href{https://fr.wikipedia.org/wiki/Caract\%C3\%A8re_d\%27\%C3\%A9chappement}{caractère d'échappement} et est utile pour empêcher l'interprétation du caractère suivant par le langage (si on veut insérer un \texttt{\#} dans du texte il faut l'échapper \texttt{\textbackslash \#} pour empêcher son interprétation comme commentaire).
+
+Les chaînes de caractère ont de nombreuses méthodes très utiles, telles que \texttt{format} (pour insérer des valeurs dans du texte), \texttt{split} et \texttt{splitlines} (pour créer une liste d'éléments à partir d'une chaîne, une liste de lignes), ou encore \texttt{replace} (qui remplace une sous-chaîne par une autre), ... On peut y accéder en utilisant \texttt{chaine.methode}. L'opérateur \texttt{in} peut être utilisé pour tester si une sous-chaîne est contenue dans une autre (\texttt{"exemple" in "Ceci est un exemple."} renvoie \texttt{True}).
+
+Pour insérer une valeur numérique \texttt{val} avec une unité \texttt{unit} dans du texte, on peux utiliser la fonction de conversion \texttt{str(val)} ou utiliser les formatages suivants :
+\begin{itemize}
+    \item \texttt{"Valeur : \%fmt \%s"\%(val,unit)} (plutôt Python2) 
+    \item \texttt{"Valeur : \{v:fmt\} \{u:s\}".format(v=val,u=unit)} (plutôt Python3)
+\end{itemize}
+
+Le tableau suivant résume les principaux formats (en remplacant \texttt{fmt}) :
 
 \begin{tabular}{|l|l|}
     \hline
-    Opérateur   & Utilisation\\
+    \texttt{fmt}    & Type de conversion\\
     \hline
-    \texttt{=}                      & Affectation (tout type)\\
-    \texttt{+}                      & Addition (int, float) ou concaténation (str, list, tuple)\\
-    \texttt{-}                      & Soustraction (int, float) ou différence d'ensemble (list, tuple, dict)\\
-    \texttt{*}                      & Multiplication (int, float) ou répétition (list, tuple)\\
-    \texttt{/}                      & Division (int, float)\\
-    \texttt{//}                     & Division entière (int, float)\\
-    \texttt{\%}                     & Modulo (int, float)\\
-    \texttt{**}                     & Élévation a la puissance (int, float)\\
-    \texttt{>}, \texttt{<}          & Supérieur, inférieur (int, float)\\
-    \texttt{>=}, \texttt{<=}        & Supérieur ou égal, inférieur ou égal (int, float)\\
-    \texttt{==}                     & Est égal (tout type)\\
-    \texttt{!=}                     & Est différent (tout type)\\
-    \texttt{is}                     & Adresses mémoires égales (list, tuple, dict)\\
-    \texttt{in}                     & Appartient (list, tuple, dict)\\
-    \texttt{not}                    & NON logique (bool)\\
-    \texttt{and}                    & ET logique (bool)\\
-    \texttt{or}                     & OU logique (bool)\\
-    \texttt{+=}, \texttt{*=}, ...   & Addition, multiplication, ... puis affectation (tout type)\\
-    \texttt{.}                      & Attribut (objet, tout type)\\
-    \texttt{[i]}                    & Indice i (list, tuple)\\
-    \texttt{[i:j]}                  & Sélection entre les indices i inclus et j exclu (list, tuple)\\
-    \texttt{[i:j:k]}                & Sélection entre les indices i et j avec un pas de k (list, tuple)\\
-    \texttt{(param=0)}              & Appel de fonction avec le paramètre \texttt{param} qui vaut \texttt{0} (fonction, classe)\\
+    s               & str\\
+    i               & int\\
+    .2f             & float (2 décimales)\\
+    .2e             & float en notation scientifique (2 décimales)\\
+    .2g             & Équivalent à e si l'exposant est $>$ 4, f sinon\\
     \hline
 \end{tabular}
 
-\href{https://fr.wikibooks.org/wiki/Programmation_Python/Tableau_des_op\%C3\%A9rateurs}{Il existe d'autres opérateurs} (\texttt{\^}, \texttt{|}, \texttt{\&}, \texttt{>>}, \texttt{<<}, \texttt{\~}) moins utiles pour la programmation scientifique.
+On peut aussi fixer le nombre de caractères à utiliser pour combler avec des espaces en indiquant un nombre avant le \texttt{.} (\texttt{\%10.4f} pour un réel de 4 décimales sur 10 caractères), réserver un caractère pour le signe avec un espace (\texttt{\% i} pour un entier signé), ... Voire documentation complémentaire.
 
-Il est intéressant de noter que pour effectuer une opération mathématique sur les éléments d'une liste, il est nécessaire de boucler sur ces éléments. L'utilisation de \texttt{numpy.array} permet de contourner le problème.
+Pour afficher du texte a l'écran, on utilise la fonction \texttt{print} (instruction en Python2).
 
-Il est aussi souvent utile d'accéder au derniers éléments d'une liste ou d'un tuple. On peux y accéder en utilisant des indices négatifs (l'indice \texttt{-1} correspond au dernier indice, \texttt{-2} a l'avant dernier, ...). On peut aussi omettre un indice lors d'une sélection, ce qui utilisera par défaut \texttt{0} a gauche et \texttt{-1} a droite (\texttt{[:4]} sélectionne les éléments de la liste jusqu'à l'indice 4 exclus)
+Pour écrire dans un fichier on doit ouvrir le fichier à l'aide de \texttt{open("nom\_fichier.txt","w")} puis utiliser la méthode \texttt{write} de l'objet créé, et enfin ne pas oublier de fermer le fichier avec la méthode \texttt{close}. Pour lire un fichier on utilise la fonction \texttt{open("nom\_fichier.txt","r")} puis on boucle souvent sur la liste renvoyée par sa méthode \texttt{readlines()} (typiquement \texttt{f=open("test.txt","r")} puis \texttt{for line in f.readlines():} et \texttt{elem1, elem2 = line.split()}). Les fonctions \texttt{numpy} \href{}{\texttt{savetxt} et \texttt{loadtxt}} permettent de simplifier l'écriture/la lecture de fichiers.
+
+Il est aussi possible d'exécuter le code contenu dans une chaîne à l'aide de la fonction \texttt{exec} (instruction en Python2), ou d'évaluer le résultat d'un calcul (contenant ou non des variables définies dans le script) à l'aide de la fonction \texttt{eval} (par exemple \texttt{x = 1} puis \texttt{eval("x+1")}).
+
+En Python2 il peut y avoir quelques problèmes pour utiliser les accents (du à une mauvaise gestion de l'\href{https://fr.wikipedia.org/wiki/Unicode}{unicode}). Si tel est le cas, il faut insérer la ligne \texttt{\# coding:utf8} au début du script et insérer la lettre \texttt{u} avant chaque chaîne de caractère pour la convertir en \href{https://fr.wikipedia.org/wiki/UTF-8}{unicode utf8} (\texttt{u"Chaîne de caractères avec accents"}).
+%%%
+\subsection*{Autres types}
+bytes, None
+
 \subsection*{Instructions}
 \href{https://fr.wikibooks.org/wiki/Programmation_Python/Tableau_des_mots_r\%C3\%A9serv\%C3\%A9s}{Certains mot clés sont réservés par le langage} (et ne peuvent pas être redéfinis) afin de pouvoir effectuer différentes instructions, dont voici quelques exemples :
 
@@ -163,31 +202,7 @@ Il est aussi souvent utile d'accéder au derniers éléments d'une liste ou d'un
     \hline
 \end{tabular}
 
-\subsection*{Fonctions natives}
-
-\begin{tabular}{|l|l|}
-    \hline
-    Fonction                                    & Utilisation\\
-    \hline
-    \texttt{print('msg')}                       & Affiche le message \texttt{'msg'} a l'écran\\
-    \texttt{input()}                            & Récupère une entrée utilisateur\\
-    \texttt{min(x)}, \texttt{max(x)}            & Renvoie le minimum, maximum de \texttt{x}\\
-    \texttt{sum(x)}, \texttt{len(x)}            & Renvoie la somme des éléments, la longueur de \texttt{x}\\
-    \texttt{round()}                            & \\
-    \texttt{range(n)}                           &\\
-    \texttt{enumerate(x)}                       &\\
-    \texttt{map()}, \texttt{zip()}              & \\
-    \texttt{sorted()}, \texttt{reversed()}      & \\
-    \texttt{type(x)}                            & Renvoie le type de la variable \texttt{x}\\
-    \texttt{filter()}                           &\\
-    \texttt{exec()}, \texttt{eval()}            &\\
-    \texttt{open()}                             &\\
-    \texttt{any()}, \texttt{all()}              &\\
-    \texttt{help()}                             & aa\\
-    \hline
-\end{tabular}
-
-En Python2, les fonctions \texttt{print} et \texttt{exec} sont des instructions et la fonction \texttt{input} s'appelle \texttt{raw\_input}.
+\subsection*{Fonctions supplémentaires}
 
 Python est livré "piles incluses", i.e. avec \href{https://docs.python.org/3/py-modindex.html}{un grand nombre de modules} par défaut (mathématiques avec le module \texttt{math}, aléatoire avec \texttt{random}, parallélisation avec \texttt{multiprocessing}, ...). Il est très souvent pertinent de chercher dans la documentation de ces modules plutôt que de re coder des fonctions déjà présentes dans le langage (et souvent mieux implémentées). Les modules de la suite \texttt{scipy} ajoutent de nombreuses autres fonctions (intégration, dérivation, résolution d'équations différentielles ordinaires, ...) qui ont été optimisées pour diminuer le temps de calcul : profitez en !
 
@@ -225,84 +240,9 @@ Voici quelques fonctions parmi les plus utiles de la suite scipy (\texttt{numpy}
     \hline
 \end{tabular}
 
-\subsection*{Formatage des chaînes de caractères}
-Pour pouvoir afficher du texte a l'écran ou exporter des données dans un fichier, il est pertinent d'adopter un format facile a lire et qui soit le même pour toutes les données (même précision). Il existe deux méthodes pour pouvoir insérer une valeur (\texttt{val}) dans une chaîne de caractères : 
-\begin{itemize}
-    \item \texttt{"Valeur : \%fmt unité"\%val} (plutôt Python2) 
-    \item \texttt{"Valeur : \{id:fmt\} unité".format(id=val)} (plutôt Python3)
-\end{itemize}
-
-Le tableau suivant résume les principaux formats.
-
-\begin{tabular}{|l|l|}
-    \hline
-    Format (fmt)    & Type de conversion\\
-    \hline
-    s               & str\\
-    i               & int\\
-    .2f             & float (2 décimales)\\
-    .2e             & float en notation scientifique (2 décimales)\\
-    \hline
-\end{tabular}
-
-On peut aussi fixer le nombre de caractères à utiliser pour combler avec des espaces (\texttt{10.4f} pour un réel de 4 décimales sur 10 caractères), réserver un caractère pour le signe (avec un espace, \texttt{ i} pour un entier signé), ... Voire les références.
-
-Les caractères \texttt{"\textbackslash n"} sont interprétés comme un retour a la ligne, et les caractères \texttt{"\textbackslash t"} comme une tabulation.
-
-En Python2 il peut y avoir quelques problèmes pour utiliser les accents (du à une mauvaise gestion de l'\href{https://fr.wikipedia.org/wiki/Unicode}{unicode}). Si tel est le cas, il faut insérer la ligne \texttt{\# coding:utf8} au début du script et insérer la lettre \texttt{u} avant chaque chaîne de caractère pour la convertir en \href{https://fr.wikipedia.org/wiki/UTF-8}{unicode utf8} (\texttt{u"Chaîne de caractères avec accents"}).
-
-\subsection*{Gestion de fichiers}
-
-Pour sauvegarder ses données de simulation ou d'analyse, il est bien souvent nécessaire d'exporter ses données dans un fichier. Il peut exister de nombreux formats de fichiers, mais le plus simple reste tout de même le fichier texte a plusieurs colonnes. \href{https://docs.scipy.org/doc/numpy/reference/routines.io.html#text-files}{Les fonctions \texttt{numpy.savetxt} et \texttt{numpy.loadtxt}} peuvent être très utiles, mais si besoin voici tout de même un exemple d'implémentation avec les fonctions Python :
-
-\begin{verbatim}
-# Import de numpy
-import numpy as np
-# Création de données aléatoires entre 0 et 1 (100 lignes)
-x = np.random.rand(100)
-y = np.random.rand(100)
-# Première méthode pour écrire un fichier, il est conseillé d'utiliser with
-with open("nom_fichier.txt", "w") as f:     # Fichier ouvert en écriture (w)
-    f.write("! Titre. Données en SI.\n")    # Écriture du titre en commentaire
-    f.write("! %10s %10s\n"%("x","y"))      # Écriture de la légende
-    for ex,ey in zip(x,y):                  # Itération sur x,y
-        f.write("% 10.4e % 10.4e\n"%(ex,ey))# Écriture des données
-    # le fichier est fermé automatiquement grâce à l'instruction with
-
-# La même chose avec numpy.savetxt
-header_fichier = "! Titre. Données en SI.\n"# Ligne de titre avec retour a la ligne
-header_fichier += "! %10s %10s"%("x","y")   # Ajout de la ligne de légende
-np.savetxt(
-    "nom_fichier.txt",
-    [x,y],
-    fmt = '10.4e',
-    header = header_fichier,
-    comments = ""               # Les caractères de commentaires sont déjà dans le header
-    )
-
-# Seconde méthode, pour lire un fichier
-x,y = [],[]                     # Initialisation de x et y comme listes vides
-f = open("nom_fichier.txt",'r') # Ouverture du fichier en lecture (r)
-for line in f.readlines():      # Boucle sur toutes les lignes du fichier
-    if line[0] == "!": continue # Si commentaire -> itération suivante
-    data = line.split(" ")      # Créé une liste de str (séparateur = espace)
-    x.append(float(data[0]))    # Ajoute le premier élément de la liste a x
-    y.append(float(data[1]))    # Les données sont converties en float
-f.close()                       # Ne pas oublier de fermer le fichier !
-# On peut convertir les données en numpy array
-x = np.array(x)
-y = np.array(y)
-
-# La même chose avec numpy.loadtxt
-x,y=np.loadtxt(
-        "nom_fichier.txt",
-        unpack = True,
-        comments = "!"      # On peut utiliser le '#' en ajoutant un '\' devant ("\#")
-        )
-\end{verbatim}
 Modules \texttt{xml} pour les fichiers xml, module \texttt{json} pour les fichiers JSON.
 
-\subsection*{Références}
+\subsection*{Documentation complémentaire}
 
 Résumé de la syntaxe Python (28 pages) :\\ \url{http://www.xavierdupre.fr/site2013/documents/python/resume_utile.pdf}
 
@@ -325,27 +265,111 @@ Résumé de la syntaxe Python (28 pages) :\\ \url{http://www.xavierdupre.fr/site
 
 \noindent{Tutoriels matplotlib :\\
 \url{https://matplotlib.org/tutorials/index.html}}
+
+\noindent{Modules de la suite scipy :\\
+\url{}}
+
+\noindent{Base de donnée des modules Python (Python Package Index) :\\
+\url{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Coder proprement}
 
-D'abord il faut savoir coder. On peut gagner du temps, éviter les erreurs et donc faire du travail de meilleure qualité en adoptant des conventions simples.
+Dès qu'on a une pratique régulière de la programmation et que les bases sont acquises, il est très utile d'adopter quelques bonnes pratiques concernant la structure et le format de son code. Il peut sembler au premier abord que ces recommandations sont superflues, mais les nombreuses erreurs générées par un code de mauvaise qualité peuvent souvent être évitées en employant quelques pratiques simples ; cela permet donc au final de gagner du temps et de laisser un code facilement compréhensible et réutilisable si vous devez transmettre ou collaborer sur votre programme. La recommandation la plus importante est sans doute de d'abord privilégier la clarté du code, en choisissant des noms de variables suffisamment clairs, en segmentant son code en fonctions et en laissant de nombreux commentaires.
 
-Il peut sembler que cela fait perdre du temps aux premiers abords, mais dès qu'un programme commence a dépasser la centaine de ligne, il devient vite facile de s'y perdre, et ces conventions permettent de s'y retrouver \textbf{beaucoup} plus facilement. Elles deviennent indispensables dès qu'on veut travailler à plusieurs sur un même programme.
+Il est important de noter que certains articles scientifiques publiés ont du être dé-publiés a cause de conclusions erronées liées à des erreurs de codes. Pour plus d'informations, voire l'article "" dans la documentation complémentaire. Cet article donne les recommandations suivantes :
 
-\begin{itemize}
-    \item Codez pour les humains, pas pour les ordinateurs : 
-    \item Laissez l'ordinateur faire le travail : 
-    \item Améliorez votre code étape par étape :
-    \item Ne vous répétez pas : 
-    \item Prévoyez les erreurs : 
-    \item Optimisez le code seulement quand il fonctionne : 
-    \item Documentez le "pourquoi", pas le "comment" : 
-    \item Collaborez : 
-\end{itemize}
+%%%
+\subsection{Codez pour les humains, pas pour les ordinateurs}
+La structure de votre programme doit rester simple, afin de pouvoir être comprise rapidement et d'isoler facilement les parties du code qui peuvent potentiellement poser problème. Cela se fait en codant des fonctions qui ont un rôle très spécifique et bien définit (on appelle cela \href{https://fr.wikipedia.org/wiki/Programmation_modulaire}{modulariser son code}). Chaque suite d'instructions effectuée plus de deux fois doit être transformée en fonction.
 
-\url{https://gigascience.biomedcentral.com/articles/10.1186/2047-217X-3-31}
-\url{https://ieeexplore.ieee.org/document/6886129/references#references}
-\url{https://ieeexplore.ieee.org/document/5069155}
+Les noms de variables et fonctions doivent être suffisamment explicites. Évitez les noms \texttt{a, b, xx, fonction, ...} a moins que leur sens ne soit explicitement indiqué dans les commentaires. L'utilisation de fonctions permet d'utiliser plusieurs fois les mêmes noms de variables (\href{https://fr.wikipedia.org/wiki/Variable_locale}{dans sa portée locale}).
+
+Utilisez un style de code cohérent (convention de nommage). Pour Python, il est conseillé d'utiliser des minuscules avec tirets bas pour les variables et les fonctions (\texttt{exemple\_de\_variable} et \texttt{exemple\_de\_fonction}), les majuscules avec tirets bas pour les constantes (variables ne devant pas être modifiées, \texttt{EXEMPLE\_DE\_CONSTANTE}), les majuscules aux initiales pour les classes (\texttt{ExempleDeClasse}), les minuscules pour les modules (\texttt{exempledemodule}).
+
+%%%
+\subsection{Laissez l'ordinateur faire le travail}
+
+    Make the computer repeat tasks.
+Automatisez votre travail. L'import de fichier, leur traitement puis l'export de figures peuvent être automatisés via un script. Programmer des fonctions les plus générales possibles, regroupées en modules permet de grandement simplifier l'écriture et la lecture de ces scripts. Les tests du code peuvent aussi être automatisés via un script ou via des librairies spécialisées.
+
+Programmez des fonctions pouvant être ré-utilisées des scripts 
+    Save recent commands in a file for re-use.
+
+Créez des modules contenant toutes les fonctions nécessaires a votre programme, et programmez des scripts 
+    Use a build tool to automate workflows.
+
+%%%
+\subsection{Améliorez votre code étape par étape}
+
+Programmez uniquement ce dont vous avez besoin, et améliorez vos fonctions ou la structure de votre code étape par étape. Cela permet de ...
+
+Utilisez un système de gestion de version (voire partie suivante).
+    Work in small steps with frequent feedback and course correction.
+    Use a version control system.
+    Put everything that has been created manually in version control.
+
+%%%
+\subsection{Ne vous répétez pas}
+
+Chaque donnée (constante physique, paramètre expérimental, paramètre numérique, ...) doit être définie une seule fois. Cela évite d'avoir à modifier le code a plusieurs endroits lorsqu'une modification est nécessaire, et tout définir au même endroit améliore la lisibilité de la structure du code. 
+
+Modularisez votre code au lieu de le copier-coller. Cela peut être fait en programmant des fonctions suffisamment générales pour être réutilisées dans plusieurs situations. On peut ajouter des paramètres optionnels aux fonctions pour gérer les cas particuliers.
+
+Ré-utilisez le code au lieu de le ré-écrire. De nombreux modules de programmation scientifique existent en Python, profitez en !
+
+
+Cela facilite aussi la maintenance et améliore la lisibilité du code. Chaque partie du code doit aussi avoir un but précis et définit.
+
+    Every piece of data must have a single authoritative representation in the system.
+    Modularize code rather than copying and pasting.
+    Re-use code instead of rewriting it.
+
+
+%%%
+\subsection{Prévoyez les erreurs}
+
+Testez les valeurs de retour de vos fonctions avec des cas simples. Cela permet de repérer rapidement un effet de bord 
+
+Utilisez une librairie de test. Plusieurs existent en Python, donc doctest, pytest ou ...
+
+    Add assertions to programs to check their operation.
+    Use an off-the-shelf unit testing library.
+
+
+    Turn bugs into test cases.
+
+
+    Use a symbolic debugger.
+Utilisez un débogueur. Dans une console ipython, la commande \texttt{\%\%debug} permet d'entrer dans la fonctions ayant produit une erreur, afin d'afficher les valeurs des variables intermédiaires au calcul.
+
+%%%
+\subsection{Optimisez le code seulement quand il fonctionne}
+
+Utilisez un profileur pour identifier les goulots d'étranglements. En Python, le programme ... permet de savoir combien de temps dans quelle fonction. Si de bonnes performances sont nécessaires, il est possible d'executer du code Fortran dans un script Python à l'aide de f2py, et du code C,C++ à l'aide de ...
+    Use a profiler to identify bottlenecks.
+    
+    Write code in the highest-level language possible.
+Utilisez un langage de plus haut niveau possible. Python est un bon choix pour des applications légères. C++ gère la programmation orientée objet et l'allocation dynamique, et Fortran .
+
+%%%
+\subsection{Documentez le "pourquoi", pas le "comment"}
+
+    Document interfaces and reasons, not implementations.
+Documentez le but d'une instruction ou d'une fonction, et pas son implémentation. Cela permet de clairement indiquer ses intentions, et aide parfois a trouver une meilleure facon de résoudre le même problème.
+    Refactor code in preference to explaining how it works.
+Si une partie du code a besoin d'explications poussées, il est souvent possible et préférable de ré-écrire cette partie du code de façon plus logique afin qu'elle n'ait plus besoin d'explications complexes. Quand cela n'est pas possible, il faut tenter de modulariser le code afin d'en isoler les parties complexes, et noter les références permettant de comprendre les opérations effectuées.
+    Embed the documentation for a piece of software in that software.
+La documentation doit faire partie intégrante du programme. Les outils de documentation automatique permettent de générer un documentation à partir des commentaires d'un code.
+
+%%%
+\subsection{Collaborez}
+
+    Use pre-merge code reviews.
+    
+    Use pair programming when bringing someone new up to speed and when tackling particularly tricky problems.
+Faites relire votre programme et expliquez votre logique. Ceci est particulièrement utile quand vous rencontrez une difficulté précise.
+    Use an issue tracking tool.
+Utilisez un outil de gestion de bogues (nécessaire pour les gros programmes). Les systèmes de gestion de version en intègrent souvent par défaut.
 
 \subsection*{Structure du code}
 Fonctions atomisées $\to$ structure claire, plus facile a déboguer.
@@ -374,7 +398,7 @@ La communauté Python adopte des règles claires concernant le nommage, afin d'�
 
 Pour indiquer que l'on affecte une valeur a une variable inutile, on utilise souvent l'underscore \texttt{\_} (par exemple : \texttt{utile, \_ = ('Données utiles', "On s'en fout")}). On doit aussi éviter les variables globales (sauf cas très particuliers), ainsi que les accents/caractères spéciaux comme noms de variables. Il est aussi recommandé d'utiliser des alias pour les modules (par exemple utiliser \texttt{import numpy as np} plutôt que \texttt{from numpy import *}) afin d'éviter d'écraser des fonctions précédemment définies. Comme les instructions sont en anglais, le plus clair est de coder et commenter en anglais si possible.
 
-\subsection*{Références}
+\subsection*{Documentation complémentaire}
 Rapide résumé de pourquoi et comment bien coder :\\
 \url{https://perso.liris.cnrs.fr/pierre-antoine.champin/enseignement/algo/cours/algo/bonnes_pratiques.html}
 
@@ -405,7 +429,7 @@ Git est le plus utilisé, hébergement en ligne sur Github (dépots publics grat
 
 GitKraken, 
 
-\subsection*{Références}
+\subsection*{Documentation complémentaire}
 \noindent{Liste d'IDE Python :\\
 \url{https://wiki.python.org/moin/IntegratedDevelopmentEnvironments}}
 
