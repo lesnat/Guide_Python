@@ -3,6 +3,8 @@
 \usepackage{hyperref}
 \usepackage[bindingoffset=0pt,width=14cm,height=22cm,marginratio=1:1,vmarginratio=1:1]{geometry}
 
+% Mots clés pour Python avancé : POO, décorateurs, splat et l'unpacking, 
+
 \title{Petit guide Python pour physicien-ne-s}
 \author{Léo Esnault}
 \date{Janvier 2019}
@@ -103,7 +105,7 @@ Les \href{https://fr.wikibooks.org/wiki/Programmation_Python/Bool\%C3\%A9ens}{bo
 Les valeurs numériques \texttt{0}, \texttt{0.} et \texttt{0j}, les chaînes de caractères vides \texttt{""} et les conteneurs vides (ordonnés ou non) \texttt{[]}, \texttt{()}, \texttt{\{\}} ainsi que \texttt{None} ont une valeur booléenne considérée comme \texttt{False}. Toutes les autres valeurs sont considérées comme \texttt{True}. On peut utiliser ces caractéristiques pour alléger le code lors de tests \texttt{if} ou \texttt{while}.
 
 %%%
-\subsection{Conteneurs ordonnés}
+\subsection*{Conteneurs ordonnés}
 Les conteneurs sont des objets pouvant en contenir d'autres (nombres, chaînes, autres conteneurs, ...). Certains d'entre eux conservent l'ordre dans lequel on les a initialisé, et on les appelle alors conteneurs ordonnés. En Python il y a deux types natifs de conteneurs ordonnés : \href{https://fr.wikibooks.org/wiki/Programmation_Python/Listes}{les listes},  et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Tuples}{les tuples}. En programmation scientifique on utilise aussi très souvent les objets \href{https://docs.scipy.org/doc/numpy/reference/arrays.html}{\texttt{numpy.array}} pour effectuer des calculs.
 
 Les tuples sont des conteneurs ordonnés \href{https://fr.wikipedia.org/wiki/Objet_immuable}{immuables}, i.e. ses éléments (pas forcément du même type) ne peuvent pas être modifiés après l'initialisation. On les initialise grâce aux parenthèses \texttt{(elem1, elem2, ...)} ou simplement en les séparant par des virgules \texttt{elem1, elem2, ...}. \href{http://apprendre-python.com/page-apprendre-tuples-tuple-python}{On utilise surtout les tuples} pour faire des affectations multiples \texttt{a, b = 1, 2}, définir des constantes ou initialiser des paramètres par défaut dans une fonction (\href{https://python-guide-pt-br.readthedocs.io/fr/latest/writing/gotchas.html#mutable-default-arguments}{utiliser des listes peut induire un comportement non désiré}). Il est possible de convertir une liste \texttt{lst} en tuple en utilisant \texttt{tuple(lst)}.
@@ -116,14 +118,15 @@ Les array sont des conteneurs de \textbf{nombres} fournis par la bibliothèque \
  
 Pour accéder a l'indice \texttt{i} d'un conteneur ordonné, on utilise les crochets \texttt{cont[i]}. On peux aussi sélectionner la tranche (slice) du conteneur entre les indices \texttt{i} inclus et \texttt{j} exclus en utilisant \texttt{cont[i:j]}. Il est possible d'ommetre un ou les deux indices lors d'une sélection, les valeurs par défaut étant le premier et le dernier élément. Pour sélectionner une tranche de conteneur entre \texttt{i} et \texttt{j} avec un pas \texttt{k}, on utilise \texttt{cont[i:j:k]}. L'indice \texttt{-1} corresponds au dernier élement du conteneur, l'indice \texttt{-2} a l'avant dernier, ... Pour les conteneurs ordonnés muables, on peu changer la valeur d'un élément ou d'une tranche en utilisant \texttt{cont1[i:j] = cont2}.
 
-\href{https://docs.python.org/fr/3.6/tutorial/datastructures.html#list-comprehensions}{Compréhension de liste}
+Une des grandes forces de Python pour la programmation scientifique est la possibilité de pouvoir filtrer facilement un \texttt{np.array} avec une condition : pour ce faire, on peut insérer un \texttt{np.array} de booléen entre crochets, soit par exemple \texttt{a[b == c]} qui renvoie toutes les valeurs de \texttt{a} tel que \texttt{b == c}.
 
-Une des grandes forces de Python pour la programmation scientifique : \texttt{a[b==c]}
+%On peut aussi utiliser les \href{https://docs.python.org/fr/3.6/tutorial/datastructures.html#list-comprehensions}{compréhensions de liste} pour alléger le code. Celles ci permettent de définir 
+Les fonctions \texttt{sum} et \texttt{len} renvoient la somme des éléments, la longueur du conteneur ordonné ; la fonction \texttt{reversed} renvoie un conteneur retourné (le début devient la fin) ; la fonction \texttt{sorted} renvoie un conteneur trié par valeur croissante ; la fonction \texttt{enumerate} renvoie une liste de tuples contenant l'indice et l'élément du conteneur.
 
-Fonction map et zip, enumerate, sorted, reversed, any, all, filter, sum, len
+D'autres fonctions, moins utilisées, sont aussi disponibles. Se référer à la documentation complémentaire.
 
 %%%
-\subsection{Conteneurs non ordonnés}
+\subsection*{Conteneurs non ordonnés}
  \href{https://fr.wikibooks.org/wiki/Programmation_Python/Dictionnaires}{dictionnaires} et \href{https://fr.wikibooks.org/wiki/Programmation_Python/Ensembles}{ensembles}.
  
 %%%
@@ -246,7 +249,7 @@ Modules \texttt{xml} pour les fichiers xml, module \texttt{json} pour les fichie
 
 Résumé de la syntaxe Python (28 pages) :\\ \url{http://www.xavierdupre.fr/site2013/documents/python/resume_utile.pdf}
 
-\noindent{Aide mémoire Python3 (2 pages) :\\ \url{https://perso.limsi.fr/pointal/_media/python:cours:mementopython3.pdf}}
+\noindent{Aide mémoire Python3 (2 pages à garder sous le coude !) :\\ \url{https://perso.limsi.fr/pointal/_media/python:cours:mementopython3.pdf}}
 
 \noindent{Formatage de chaînes de caractères :\\
 \url{https://pyformat.info/}}
@@ -267,10 +270,11 @@ Résumé de la syntaxe Python (28 pages) :\\ \url{http://www.xavierdupre.fr/site
 \url{https://matplotlib.org/tutorials/index.html}}
 
 \noindent{Modules de la suite scipy :\\
-\url{}}
+\url{https://scipy.org/docs.html}}
 
 \noindent{Base de donnée des modules Python (Python Package Index) :\\
-\url{}}
+\url{https://pypi.org/}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Coder proprement}
 
